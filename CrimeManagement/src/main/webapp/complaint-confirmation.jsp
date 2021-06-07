@@ -4,17 +4,13 @@
 <html>
 
 <head>
-<title>User Login</title>
-<link rel="stylesheet" href="./style/policelogin.css.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Registered</title>
+<link rel="stylesheet" href="style/complaintsuccess.css">
+
 
 <!-- BEGIN INCLUDE HEADER AND FOOTER -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"
-	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-	crossorigin="anonymous">
-	
-</script>
-
-
 
 
 
@@ -62,7 +58,7 @@
 
 .dropdown-content a {
 	color: rgb(0, 51, 153);
-	padding: 0px 0.5px;
+	padding: 0px 0.03vw;
 	text-decoration: none;
 	display: block;
 }
@@ -70,8 +66,6 @@
 .dropdown-content a:hover {
 	background-color: rgb(0, 40, 230);
 }
-
-
 
 .dropdown:hover .dropdown-content {
 	display: block;
@@ -81,29 +75,13 @@
 	background-color: rgb(0, 40, 230);
 }
 
-.required {
-	color: red;
-}
-
-#verify:disabled {
-  cursor: not-allowed;
-  pointer-events: all !important;
-}
-
-#generateotp:disabled {
+#btn:disabled {
   cursor: not-allowed;
   pointer-events: all !important;
 }
 
 </style>
-
-
-</head>
-
-
-
-
-<body style="background-color: white; overflow: hidden;">
+<body style=" background-color: white;">
 	<!-------------------------------- Header --------------------------------------->
 	<header>
 		<div id="header"
@@ -128,19 +106,22 @@
 		<div
 			style="background-color: rgb(0, 51, 153); height: 5.31vh; width: 100%; z-index: 1"
 			id="nav">
-			<a href="homepage.html" style="width: 12.5vw;">HOME</a>
-			<a href="html/newsfinal.html" style="width: 12.5vw;">NEWS</a> <a
-				href="html/mostwanted.html" style="width: 15.43vw;">MOST WANTED</a>
-			<a href="html/missingpersons.html" style="width: 15.43vw;">MISSING
-				PERSONS</a> <a href="html/unidentifiedbodies.html"
+			<a href="homepage2.html" style="width: 12.5vw;">HOME</a>
+			<a href="html/newsfinal2.html" style="width: 12.5vw;">NEWS</a> <a
+				href="html/mostwanted2.html" style="width: 15.43vw;">MOST WANTED</a>
+			<a href="html/missingpersons2.html" style="width: 15.43vw;">MISSING
+				PERSONS</a> <a href="html/unidentifiedbodies2.html"
 				style="width: 17.38vw;">UNIDENTIFIED BODIES</a> <a
-				href="html/crimetypes.html" style="width: 12.83vw;">CRIME TYPES</a>
-			<a class="active" href="/CrimeManagement/login.jsp" style="width: 12.83vw;">LOGIN</a>
-			
+				href="html/crimetypes2.html" style="width: 12.83vw;">CRIME TYPES</a>
+
+			<div class="dropdown" style="width: 10.83vw;">
+				<a href="homepage.html" style="width: 12.83vw;">LOGOUT</a>
+				
+				
 			</div>
 
 
-		
+		</div>
 	</header>
 	<!-------------------------------- Footer --------------------------------------->
 	<footer
@@ -198,7 +179,7 @@
 	<!----------------------------Left HelpLine Pannel--END-------------------------------->
 
 
-	<!----------------------------Right Covid HelpLine Pannel---------------------------------->
+	<!----------------------------Right Covid HelpLine Panel---------------------------------->
 
 	<a href="https://www.mohfw.gov.in/pdf/coronvavirushelplinenumber.pdf"
 		target="_blank"> <img src="./Images/telephone.png"
@@ -206,119 +187,24 @@
 		<div id="covid-helpline"
 			style="padding-top: 3vw; position: absolute; margin-left: 96.5vw; border: 1px black solid; border-radius: 12px; height: 17.3vw; width: 1.68vw; margin-top: 100px; background-color: rgb(0, 51, 153); color: white; padding-left: 10px;">
 
-			<span> C<br>O<br>V<br>I<br>D<br>
-			<br>H<br>E<br>L<br>P<br>L<br>I<br>N<br>E<br>
+			<span> C<br>O<br>V<br>I<br>D<br> <br>H<br>E<br>L<br>P<br>L<br>I<br>N<br>E<br>
 			</span>
 
 		</div>
 
 	</a>
 
-	<!----------------------------Right Covid HelpLine Pannel END---------------------------------->
-
-
-
-	<!--------------------------------------------- USER LOGIN BEGIN ------------------------------------------------------------------------->
-
-	<h1>Welcome to Login Page!</h1>
-	<form id="loginForm" method="post" action="verify_page" >
+	<!----------------------------Right Covid HelpLine Panel END---------------------------------->
+		
+		<h2 style="font-style:italic;"> Complaint Registered Successfully !! </h2>
 		<table align="center">
-			<tr>
-				<td style="color: red; font-size: 18px;" colspan="3"><center>
-						<div id="msg">${login}</div>
-					</center></td>
-			</tr>
-			<tr></tr>
-			<tr></tr>
-			<tr></tr>
-			
-			
-			<tr>
-				<td><label for="number">Enter Mobile No:<span
-						class="required">*</span></label></td>
-				<td><input type="tel" name="mobilenumber"
-					placeholder="+91123456..." id="number" readonly value=<%= (String) session.getAttribute("number") %>></td>
-				<td><input type="button" value="Send OTP"
-					id="generateotp" onclick="phoneAuth();" disabled></td>
-			</tr>
-			<tr></tr>
-			<tr></tr>
-			<tr>
-				<td><div id="recaptcha-container"></div></td>
-			</tr>
-			<tr>
-			<td><label for="recaptcha">Captcha:<span
-						style="color: red">&#42;</span></label></td>
-				<td><div id="recaptcha"
-						class="g-recaptcha brochure__form__captcha"
-						data-sitekey="6LefpMIaAAAAADXI9CeYpUC2piRAeTkW6yI9c5GR" data-callback="enableotpBtn" style="width:150px;"></div></td></tr>
-			<tr></tr>
-			<tr></tr>
-			<tr>
-				<td><label for="username">Enter OTP:<span
-						class="required">*</span></label></td>
-				<td><input type="text" id="verificationCode"
-					placeholder="Enter verification code" required></td>
-
-			</tr>
-			<tr></tr>
-			<tr></tr>
-	
-			<tr>
-			
-				<td colspan="2">
-				<center>
-				<input type="button" id="verify" value="Login"
-					id="verify" onclick="codeverify();" disabled>
-					</center>
-					</td>
-					
-			</tr>
-			
-			<tr></tr>
-			<tr></tr>
-		</table>
-	</form>
-
-
-	<!--------------------------------------------- USER LOGIN ENDS ------------------------------------------------------------------------>
-
-<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
-
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#config-web-app -->
-
-	<script>
-		// Your web app's Firebase configuration
-		var firebaseConfig = {
-			apiKey : "AIzaSyCYZuTcSDjfqEASRxQnmv6GXlSfqLolSPw",
-			authDomain : "crime-management-f958a.firebaseapp.com",
-			projectId : "crime-management-f958a",
-			storageBucket : "crime-management-f958a.appspot.com",
-			messagingSenderId : "858998749681",
-			appId : "1:858998749681:web:a7925ab05e427f310f2c50"
-		};
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);
-	</script>
-	<script>
-	
-    function enableotpBtn(){
-        document.getElementById("generateotp").disabled = false;
-    }
-	</script>
-	<script src="js/loginNumberAuthentication.js" type="text/javascript"></script>
-	<script src="https://www.google.com/recaptcha/api.js"></script>
-
-
-
-
-
-
-	<!-------- Footer Begins ------->
-
-	<!-------- Footer Ends ------->
-
-
+		
+		<tr><td style="font-weight:bold; font-style:italic;padding-bottom:20px;">Complaint Id: <%= (Integer) session.getAttribute("complaint-id") %> </td></tr>
+		<tr><td style="font-weight:bold; font-style:italic;padding-bottom:20px;">Complaint Type: <%= (String) session.getAttribute("complaint-type") %> </td></tr>
+		<tr><td style="font-weight:bold; font-style:italic;padding-bottom:20px;">Address: <%= (String) session.getAttribute("complaint-address") %></td></tr>
+		<tr><td style="font-weight:bold; font-style:italic;padding-bottom:30px;">Description: <%= (String) session.getAttribute("complaint-description") %></td></tr>
+		<tr><td align="center" style="font-weight:bold; font-style:italic; font-size:17px;padding-bottom:10px;"><a href="/CrimeManagement/complaint.jsp" style="color:blue">Register another complaint</a></td></tr>
+		<tr><td align="center" style="font-weight:bold; font-style:italic; font-size:17px;padding-bottom:10px;"><a href="/CrimeManagement/track-complaint.jsp" style="color:blue">Track Complaint</a></td></tr>
+	</table>
 </body>
 </html>

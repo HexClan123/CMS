@@ -77,7 +77,7 @@ public class login_page extends HttpServlet {
 			    //	RequestDispatcher rd=request.getRequestDispatcher("/verify.jsp");
 					//rd.forward(request, response);
 					return;
-			    }
+			    } 
 		
 			   else {
 			    	request.setAttribute("Login", "Your Email Id or password is incorrect");
@@ -92,6 +92,7 @@ public class login_page extends HttpServlet {
 
 				}catch (Exception e) {
 					// TODO: handle exception
+					request.setAttribute("Login", "System Error. We are working on it..");
 				//	session.setAttribute("login", "Your Email Id or password is incorrect");
 				//	response.sendRedirect("/PodMock2/login2.jsp");					
 				}
@@ -131,6 +132,7 @@ public class login_page extends HttpServlet {
 
 			}catch (Exception e) {
 				// TODO: handle exception
+				request.setAttribute("Login", "System Error. We are working on it..");
 			//	request.setAttribute("Login", "Incorrect");
 			//	RequestDispatcher rd=request.getRequestDispatcher("/policelogin.jsp");
 			//	rd.forward(request, response);

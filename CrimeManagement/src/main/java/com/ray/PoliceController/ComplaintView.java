@@ -71,6 +71,7 @@ public class ComplaintView extends HttpServlet {
 					    System.out.print("checked1");
 					    if(rs.next()) {
 					    	//System.out.println("Successfully Login");
+					    	
 					    	PreparedStatement ps2 = con.prepareStatement("select name from user where email=?");
 					    	ps2.setString(1, rs.getString(8));
 					    	ResultSet rs2=ps2.executeQuery();
@@ -83,7 +84,7 @@ public class ComplaintView extends HttpServlet {
 						    	String desc = rs.getString(5);
 						    	String mobile = rs.getString(6);
 						    	int complaintid = rs.getInt(9);
-						    	String status = rs.getString(10);
+						    	//String status = rs.getString(10);
 						    	String info = rs.getString(11);
 						    	
 						    	session.setAttribute("complainant", name);
@@ -93,7 +94,7 @@ public class ComplaintView extends HttpServlet {
 								session.setAttribute("desc", desc);
 								session.setAttribute("mobile", mobile);
 								session.setAttribute("complaintid", complaintid);
-								session.setAttribute("status", status);
+								//session.setAttribute("status", status);
 								session.setAttribute("info", info);
 								
 								response.sendRedirect("/CrimeManagement/complaint-status.jsp");
@@ -107,6 +108,7 @@ public class ComplaintView extends HttpServlet {
 					    }
 				
 					   else {
+						   
 						   response.sendRedirect("/CrimeManagement/complaints-view.jsp");
 							return;
 						//	response.setContentType("text/html");

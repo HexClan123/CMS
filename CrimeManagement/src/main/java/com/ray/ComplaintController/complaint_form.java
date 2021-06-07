@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -79,8 +80,21 @@ public class complaint_form extends HttpServlet {
 		    ps.setString(7, Email);
 		    int x = ps.executeUpdate();
 		    if(x>0) {
+		    	PreparedStatement ps2 = con.prepareStatement("select complaintID from complaints where complaintID = (SELECT max(ComplaintID) FROM crimemanagement.complaints where email=?);");
+		    	ps2.setString(1, Email);
+		    	ResultSet rs2=ps2.executeQuery();
+		    	if(rs2.next()) {
+		    		session.setAttribute("complaint-id", rs2.getInt(1) );
+					session.setAttribute("complaint-type", ComplaintType);
+					session.setAttribute("complaint-address", Address);
+					session.setAttribute("complaint-description", Complaint);
+					response.sendRedirect("/CrimeManagement/complaint-confirmation.jsp");
+		    	}
+		    	else {
+		    		request.setAttribute("Complaint", "Error in getting Complaint Id");
+		    	}
 					
-		    	request.setAttribute("Complaint", "Complaint Registered.");
+		    	
 					
 					String	to=request.getParameter("emailid");
 					Mail mail=new Mail();
@@ -94,6 +108,7 @@ public class complaint_form extends HttpServlet {
 			}
 		    
 	}catch (Exception e) {
+		request.setAttribute("Complaint", "System Error. We are working on it..");
 		e.printStackTrace();
 	}
 		//response.sendRedirect("/PodMock2/complaint.jsp");

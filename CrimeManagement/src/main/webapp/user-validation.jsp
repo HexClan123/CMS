@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+	<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+
+	
 <!DOCTYPE html>
 <html>
 <head>
-<title>Registration</title>
-<link rel="stylesheet" href="./style/registrationcss.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Validation</title>
+
+
 
 <!-- BEGIN INCLUDE HEADER AND FOOTER -->
 <script src="js/jquery-1.10.2.js"></script>
-
 
 
 <!-- END INCLUDE HEADER AND FOOTER -->
@@ -76,21 +86,47 @@
 	color: red;
 }
 
-input{
+button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    font-size: medium;
+  }
+  button:hover {
+    opacity: 0.9;
+  }
+ 
+  h1{
+      text-align: center;
+      color: blue;
+      padding-top: 30px;
+      padding-bottom: 10px;
+  }
+  td{
+      column-gap:20px;
+      padding: 12px;
+      width:150px;
+  }
+ 
+  input{
     float: right;
 }
-
-#verify:disabled {
-  cursor: not-allowed;
-  pointer-events: all !important;
+label{
+    float:left;
+    font-weight: bold;
 }
 
+#inner-table::-webkit-scrollbar { width: 0 !important }
+
+ 
+
 </style>
-
-
 </head>
-
-<body style="background-color: white; overflow: hidden">
+<body style="overflow: hidden; background-color: white;">
 	<!-------------------------------- Header --------------------------------------->
 	<header>
 		<div id="header"
@@ -115,15 +151,15 @@ input{
 		<div
 			style="background-color: rgb(0, 51, 153); height: 5.31vh; width: 100%; z-index: 1"
 			id="nav">
-			<a href="homepage.html" style="width: 12.5vw;">HOME</a>
-			<a href="html/newsfinal.html" style="width: 12.5vw;">NEWS</a> <a
-				href="html/mostwanted.html" style="width: 15.43vw;">MOST WANTED</a>
-			<a href="html/missingpersons.html" style="width: 15.43vw;">MISSING
-				PERSONS</a> <a href="html/unidentifiedbodies.html"
+			<a href="homepage2.html" style="width: 12.5vw;">HOME</a>
+			<a href="html/newsfinal2.html" style="width: 12.5vw;">NEWS</a> <a
+				href="html/mostwanted2.html" style="width: 15.43vw;">MOST WANTED</a>
+			<a href="html/missingpersons2.html" style="width: 15.43vw;">MISSING
+				PERSONS</a> <a href="html/unidentifiedbodies2.html"
 				style="width: 17.38vw;">UNIDENTIFIED BODIES</a> <a
-				href="html/crimetypes.html" style="width: 12.83vw;">CRIME TYPES</a>
+				href="html/crimetypes2.html" style="width: 12.83vw;">CRIME TYPES</a>
 
-			<a class="active" href="/CrimeManagement/login.jsp" style="width: 12.83vw;">LOGIN</a>
+			<a href="/CrimeManagement/login.jsp" style="width: 12.83vw;">LOGOUT</a>
 
 
 		</div>
@@ -201,131 +237,116 @@ input{
 
 	<!----------------------------Right Covid HelpLine Pannel END---------------------------------->
 
-	<!-----------------------User Registration Page Containt Start -->
-	
-	<h1 style="position: relative; top: 10px; left: 40px;">Welcome to User Registration Page!</h1>
-	
-	<form style="position: relative; top: 10px; left: 500px;" method="post"
-		action="registration_page" id="regForm">
+
+
+	<!---------------- USER INTERFACE ------------------>
+
+	<%
+//String id = request.getParameter("userId");
+String driverName = "com.mysql.jdbc.Driver";
+String connectionUrl = "jdbc:mysql://localhost:3306/";
+String dbName = "crimemanagement";
+String userId = "root";
+String password = "qwerrewq12";
+
+try {
+Class.forName(driverName);
+} catch (ClassNotFoundException e) {
+e.printStackTrace();
+}
+
+Connection connection = null;
+PreparedStatement statement = null;
+ResultSet resultSet = null;
+%>
+<h2 align="center"><font><strong>User Records</strong></font></h2>
+<table align="center" width="900px" cellspacing="0" cellpadding="0" border="0">
+       <tr>
+       <td>
+<div style="overflow-y:scroll; max-height:480px; margin-top:-23px;" id="inner-table">
+<table cellpadding="0" cellspacing="0" border="1">
+<tr style="background-color:lightgrey;color:black">
+            <td><b>Sr No.</b></td>
+            <td><b>Name</b></td>
+            <td><b>Email</b></td>
+            <td><b>Mobile Number</b></td>
+            <td><b>Id Number </b></td>
+            <td><b>ID card type </b></td>
+            <td><b>Status</b></td>
+         </tr>
+
+<%
+try{ 
+
+connection = DriverManager.getConnection(connectionUrl+dbName, userId, password);
+statement=connection.prepareStatement("SELECT * FROM user where status=?");
+statement.setString(1, "Pending");
+
+int count = 0;
+resultSet = statement.executeQuery();
+while(resultSet.next()){
+		count=count+1;
+%>
+<tr bgcolor="white">
+
+<td><%=count%></td>
+<td><%=resultSet.getString("name") %></td>
+<td><%=resultSet.getString("email") %></td>
+<td><%=resultSet.getString("mobile") %></td>
+<td><%=resultSet.getString("id_card_no") %></td>
+<td><%=resultSet.getString("type_of_card") %></td>
+<td><a href="#" class="approve" id=<%=resultSet.getString("id_card_no") %> name=<%=resultSet.getString("id_card_no") %> style="padding-right:30px; color:green">&#10004</a>
+<a href="#" class="reject" id=<%=resultSet.getString("id_card_no") %> name=<%=resultSet.getString("id_card_no") %> style="color:red">&#10008</a></td>
+
+</tr>
+
+<% 
+}
+connection.close();
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+</table>
+</div>
+</td>
+</tr>
+</table>
+
+<form method="post" id="form"  style="display:none">
+
+<input type="text" id="clickid" name="clickid" placeholder="Enter login Id" value="0">
 		
-		<table>
-		
-			<tr><td style="color:red; font-size:18px;" colspan="3"><center><div id="msg">${Registration}</div></center> </td></tr>
-		
-			<tr>
-				<td><label for="fullname">Enter Full Name:<span
-						class="required">*</span></label></td>
-				<td><input type="text" name="fullname"
-					placeholder="Enter Full Name " required></td>
-			
-			</tr>
-			<tr>
-				<td><label for="emailid">Enter Email Id:<span
-						class="required">*</span></label></td>
-				<td><input type="email" name="emailid"
-					placeholder="Enter Mail Id" required></td>
-					
-			</tr>
-			<tr>
-				<td><label for="password">Create Password:<span
-						class="required">*</span></label></td>
-				<td><input type="password" name="password"
-					placeholder="Enter Password" required></td>
-					
-			</tr>
-			<tr>
-				<td><label for="cardtype">Identity Document:<span class="required">*</span></label></td>
-				<td><select name="cardtype" id="cardtype" required style="position:relative; left:34px;width:163px;height:20px;">
-						<option value="" selected disabled hidden>Select Identity Card</option>
-						<option value="PAN">PAN Card</option>
-						<option value="Aadhar">Aadhar Card</option>
-						<option value="Passport">Passport</option>
-						<option value="Driving License">Driving License</option>
-				</select></td>
-					
-			</tr>
-			<tr>
-				<td><label for="idno">Enter Id Number:<span
-						class="required">*</span></label></td>
-				<td><input type="text" name="idno"
-					placeholder="Enter Id Card Number" required></td>
-					
-			</tr>
-
-			
-			<tr>
-				<td><label for="number">Enter Mobile No:<span
-						class="required">*</span></label></td>
-				<td><input type="tel" name="mobilenumber"
-					placeholder="+91123456..." id="number"  required /></td>
-				<td><input type="button" id="sendotp" value="Send OTP"
-					id="generate otp" onclick="phoneAuth();"></td>
-			</tr>
-			<tr>
-			
-				<td colspan="3"><div id="recaptcha-container" style="position:relative;left:50px"></div></td>
-			</tr>
-			<tr>
-				<td><label for="verificationcode">Enter OTP:<span
-						class="required">*</span></label></td>
-				<td><input type="text" id="verificationCode"
-					placeholder="Enter verification code" required></td>
-
-			</tr>
-			
-			<tr>
-				<td align="center" colspan="2"><input type="button" id="verify" value="Register"
-					onclick="codeverify();" style="float:none" disabled>
-					</td>
-			</tr>
-		</table>
-	</form>
-
-<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
-
-	<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#config-web-app -->
-
-	<script>
-		// Your web app's Firebase configuration
-		var firebaseConfig = {
-			apiKey : "AIzaSyCYZuTcSDjfqEASRxQnmv6GXlSfqLolSPw",
-			authDomain : "crime-management-f958a.firebaseapp.com",
-			projectId : "crime-management-f958a",
-			storageBucket : "crime-management-f958a.appspot.com",
-			messagingSenderId : "858998749681",
-			appId : "1:858998749681:web:a7925ab05e427f310f2c50"
-		};
-		// Initialize Firebase
-		firebase.initializeApp(firebaseConfig);		
-	</script>
-	<script src="js/registerNumberAuthentication.js" type="text/javascript"></script>
-    <script>
-   
-    </script>
-    
-	
-
-
-
-	<a href="https://www.mohfw.gov.in/pdf/coronvavirushelplinenumber.pdf"
-		target="_blank"> <img src="./Images/telephone.png"
-		style="width: inherit; height: 40px; padding-left: 0px; position: absolute; margin-left: 96.5vw; margin-top: 14px; z-index: 1; border-radius: 25px;" />
-		<div id="covid-helpline"
-			style="padding-top: 3vw; position: absolute; margin-left: 96.5vw; border: 1px black solid; border-radius: 12px; height: 17.3vw; width: 1.68vw; margin-top: 16px; background-color: rgb(0, 51, 153); color: white; padding-left: 10px;">
-
-			<span> C<br>O<br>V<br>I<br>D<br> <br>H<br>E<br>L<br>P<br>L<br>I<br>N<br>E<br>
-			</span>
-
-		</div>
-
-	</a>
-
+</form>
 
 	<!-------- Footer Begins ------->
 
 	<!-------- Footer Ends ------->
-
+<script>
+$('a.approve').click(function(){
+	var id = $(this).attr('id');
+	//session1.setAttribute("click-id", id);
+	//session1.setAttribute("click-id",'id');
+  //  alert( id );
+    document.getElementById("clickid").value = id;
+    document.getElementById("form").action = "ApproveUser";
+   // document.getElementById("form").action = "ComplaintView"+id;
+    document.getElementById("form").submit();
+    document.getElementById("form").action = "";
+});
+$('a.reject').click(function(){
+	var id = $(this).attr('id');
+	//session1.setAttribute("click-id", id);
+	//session1.setAttribute("click-id",'id');
+   // alert( id );
+    document.getElementById("clickid").value = id;
+    document.getElementById("form").action = "RejectUser";
+   // document.getElementById("form").action = "ComplaintView"+id;
+    document.getElementById("form").submit();
+});
+</script>
 
 </body>
+
+
 </html>

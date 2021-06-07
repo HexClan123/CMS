@@ -74,6 +74,12 @@
 .dropdown:hover .dropbtn {
 	background-color: rgb(0, 40, 230);
 }
+
+#btn:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
 </style>
 <body style=" background-color: white;">
 	<!-------------------------------- Header --------------------------------------->
@@ -119,7 +125,7 @@
 	</header>
 	<!-------------------------------- Footer --------------------------------------->
 	<footer
-		style="background-color: rgb(0, 51, 153); height: 4.38vh; position: absolute; top: 100.16vh; width: 99%; padding-top: 1.33vh;">
+		style="background-color: rgb(0, 51, 153); height: 4.38vh; position: absolute; top: 106.16vh; width: 99%; padding-top: 1.33vh;">
 		<p
 			style="color: rgb(249, 249, 249); font-size: 2.12vh; padding-left: 11.72vw; display: inline;">
 			<i>Disclaimer </i>
@@ -199,15 +205,15 @@
 	<form method="post" action="complaint_form" style="position: relative; top: 4.5px; left: 0px;">
 	
 		<table align="center">
-		<tr><td style="color:black; font-size:18px;font-weight:bold" colspan="2">Hi <%= (String) session.getAttribute("name") %>, </td></tr>
+		<tr><td style="color:black; font-size:18px;font-weight:bold" colspan="2">Hi <%= (String) session.getAttribute("complaint-name") %>, </td></tr>
 			<tr>
 				<td><label for="calender">Date of Complaint:<span
 						style="color: red">&#42;</span></label></td>
-				<td><input type="Date" name="Calender" placeholder="Date of Complaint" required></td>
+				<td><input type="date" id="datefield" name="Calender" placeholder="Date of Complaint"  required></td>
 			</tr>
 			 <tr>
                 <td><label for="username">Email Id:<span style="color: red">&#42;</span></label></td>
-                <td><input type="email" name="emailid" placeholder="Enter the mail id" readonly value=<%= (String) session.getAttribute("email") %>></td>
+                <td><input type="email" name="emailid" placeholder="Enter the mail id" readonly value="<%= (String) session.getAttribute("complaint-email") %>"></td>
             </tr>
 			<tr>
 				<td><label for="complaint type">Complaint Type:<span
@@ -240,7 +246,7 @@
 				<td><label for="mobilenumber">Contact No:<span
 						style="color: red">&#42;</span></label></td>
 				<td><input type="text" name="mobilenumber"
-					placeholder="Enter Mobile Number" pattern="[0-9]{10}"  required></td>
+					placeholder="Enter Mobile Number" pattern="[0-9]{10}"  required value="<%= (String) session.getAttribute("complaint-mobile") %>"></td>
 
 			</tr>
 			<tr>
@@ -252,13 +258,13 @@
 						style="color: red">&#42;</span></label></td>
 				<td><div id="recaptcha"
 						class="g-recaptcha brochure__form__captcha"
-						data-sitekey="6LefpMIaAAAAADXI9CeYpUC2piRAeTkW6yI9c5GR" ></div></td>
+						data-sitekey="6LefpMIaAAAAADXI9CeYpUC2piRAeTkW6yI9c5GR" data-callback="enableBtn"></div></td>
 			</tr>
 
 			<tr>
 				<td colspan="2">
 					<center>
-						<button type="submit" id="btn">Submit</button>
+						<button type="submit" id="btn" disabled>Submit</button>
 					</center>
 				</td>
 			</tr>
@@ -271,11 +277,26 @@
 
 	<!-------- Footer Ends ------->
 	<script src="https://www.google.com/recaptcha/api.js"></script>
-	<script>
-	
-
+<script>
+    function enableBtn(){
+        document.getElementById("btn").disabled = false;
+    }
   
-		</script>
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+     if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datefield").setAttribute("max", today);
+    
+</script>
 	
 </body>
 

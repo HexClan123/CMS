@@ -113,6 +113,10 @@ label{
     font-weight: bold;
 }
 
+#verify:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
 
 </style>
 </head>
@@ -247,11 +251,11 @@ label{
 						style="color: red">&#42;</span></label></td>
 				<td><div id="recaptcha"
 						class="g-recaptcha brochure__form__captcha"
-						data-sitekey="6LefpMIaAAAAADXI9CeYpUC2piRAeTkW6yI9c5GR" ></div></td>
+						data-sitekey="6LefpMIaAAAAADXI9CeYpUC2piRAeTkW6yI9c5GR" data-callback="enableBtn"></div></td>
 			</tr>
 			<tr>
 				<td align="center" colspan="2"><button type="submit"
-						id="verify">Track Status</button></td>
+						id="verify" disabled>Track Status</button></td>
 			</tr>
 					
 		</table>
@@ -261,6 +265,11 @@ label{
 
 	<!-------- Footer Ends ------->
 <script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    function enableBtn(){
+        document.getElementById("verify").disabled = false;
+    }
+</script>
 </body>
 
 

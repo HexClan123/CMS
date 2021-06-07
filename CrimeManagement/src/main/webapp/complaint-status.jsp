@@ -207,47 +207,47 @@
   <div class="form-group row">
     <label for="name" class="col-sm-3 col-form-label">Name:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="name" value= <%=(String) session.getAttribute("complainant") %>>
+      <input type="text" readonly class="form-control" id="name" value= "<%=(String) session.getAttribute("complainant") %>">
     </div>
   </div>
     <div class="form-group row">
     <label for="date" class="col-sm-3 col-form-label">Date of occurance:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="date" value= <%= (String) session.getAttribute("date") %>>
+      <input type="text" readonly class="form-control" id="date" value= "<%= (String) session.getAttribute("date") %>">
     </div>
   </div>
     <div class="form-group row">
     <label for="crimeType" class="col-sm-3 col-form-label">Type of Crime:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="crimeType" value= <%= (String) session.getAttribute("type") %>>
+      <input type="text" readonly class="form-control" id="crimeType" value= "<%= (String) session.getAttribute("type") %>">
     </div>
   </div>
     <div class="form-group row">
     <label for="address" class="col-sm-3 col-form-label">Place of occurance:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="address" value=<%= (String) session.getAttribute("address") %>>
+      <input type="text"  readonly class="form-control" id="address" value="<%= (String) session.getAttribute("address") %>">
     </div>
   </div>
     <div class="form-group row">
     <label for="complaintDesc" class="col-sm-3 col-form-label">Complaint Description:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="complaintDesc" value=<%= (String) session.getAttribute("desc") %>>
+      <input type="text" readonly class="form-control" id="complaintDesc" value="<%= (String) session.getAttribute("desc") %>">
     </div>
   </div>
     <div class="form-group row">
     <label for="mobile" class="col-sm-3 col-form-label">Contact Number:</label>
     <div class="col-sm-9">
-      <input type="text" readonly class="form-control" id="mobile" value=<%= (String) session.getAttribute("mobile") %>>
+      <input type="text" readonly class="form-control" id="mobile" value="<%= (String) session.getAttribute("mobile") %>">
     </div>
   </div>
   <div class="form-group row">
     <label for="status" class="col-sm-3 col-form-label">Status</label>
     <div class="col-sm-9">
     <select id="status" name="status" class="form-control">
-  <option value="Opened">Opened</option>
-  <option value="Inprogress">In progress</option>
-  <option value="Resolved">Resolved</option>
-  <option value="Closed">Closed</option>
+  <option value="0-Opened">0 - Opened</option>
+  <option value="1-Inprogress">1 - In progress</option>
+  <option value="2-Resolved">2 - Resolved</option>
+  <option value="3-Closed">3 - Closed</option>
 </select>
   
     </div>
@@ -255,7 +255,7 @@
   <div class="form-group row">
     <label for="info" class="col-sm-3 col-form-label">Additional Information:</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" name="info" id="info" placeholder="Additional Information" style="height:60px;" value=<%= (String) session.getAttribute("info") %>>
+      <input type="text" class="form-control" name="info" id="info" placeholder="Additional Information" style="height:60px;" value="<%= (String) session.getAttribute("info") %>">
     </div>
   </div>
 

@@ -54,7 +54,7 @@ public class TrackComplaintController extends HttpServlet {
 
 				HttpSession session = request.getSession();
 				String complaintId=request.getParameter("complaintId");
-				String mail = (String) session.getAttribute("email");
+				String mail = (String) session.getAttribute("complaint-email");
 				int id = Integer.parseInt(complaintId);
 				System.out.print(id);
 				
@@ -64,7 +64,7 @@ public class TrackComplaintController extends HttpServlet {
 				
 				{
 					try{
-					    PreparedStatement ps1=con.prepareStatement("select * from complaints where complaintID=? and email = ?");
+					    PreparedStatement ps1=con.prepareStatement("select * from complaints join complaintstatus on complaints.status_of_complaint=complaintstatus.value where complaints.complaintID=? and complaints.email = ?");
 					    PreparedStatement ps2=con.prepareStatement("select name from user where email = ?");
 					    ps1.setInt(1, id);
 					    ps1.setString(2, mail);
@@ -84,7 +84,7 @@ public class TrackComplaintController extends HttpServlet {
 									session.setAttribute("place_of_occurance",rs.getString(4));
 									session.setAttribute("description",rs.getString(5));
 									session.setAttribute("contact",rs.getString(6));
-									session.setAttribute("status_of_complaint",rs.getString(10));
+									session.setAttribute("status_of_complaint",rs.getString("status"));
 									session.setAttribute("additionalInfo",rs.getString(11));
 									session.setAttribute("last_update_time",rs.getString(12));
 									response.sendRedirect("/CrimeManagement/view-status.jsp");
@@ -105,6 +105,10 @@ public class TrackComplaintController extends HttpServlet {
 				
 						}catch (Exception e) {
 							// TODO: handle exception
+							request.setAttribute("track", "System Error. We are working on it.");
+				    		RequestDispatcher rd=request.getRequestDispatcher("/track-complaint.jsp");
+							rd.forward(request, response);
+							return;
 						//	session.setAttribute("login", "Your Email Id or password is incorrect");
 						//	response.sendRedirect("/PodMock2/login2.jsp");					
 						}

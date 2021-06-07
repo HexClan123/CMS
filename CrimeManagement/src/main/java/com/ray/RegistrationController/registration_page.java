@@ -62,18 +62,36 @@ public class registration_page extends HttpServlet {
 		
 		try{
 			 
-		    PreparedStatement ps1=con.prepareStatement("select * from user where email=? and id_card_no=? ");
+		    PreparedStatement ps1=con.prepareStatement("select * from user where email=?");
 		    ps1.setString(1, email);
-		    ps1.setString(2, idno);
 		    ResultSet rs=ps1.executeQuery();
+		    
+		    PreparedStatement ps2 = con.prepareStatement("select * from user where id_card_no=?");		    
+		    ps2.setString(1, idno);
+		    ResultSet rs2 = ps2.executeQuery();
+		    
+		    PreparedStatement ps4 = con.prepareStatement("select * from user where id_card_no=? and email=? ");		    
+		    ps4.setString(1, idno);
+		   // ps4.setString(2, mobile);
+		    ps4.setString(2, email);
+		    ResultSet rs4 = ps4.executeQuery();
 		
 		    if(rs.next()) {
-		    	request.setAttribute("Registration", "Account already exist");
+		    	request.setAttribute("Registration", "Email already exist");
 		    	//session.setAttribute("Registration", "Account already exist");
 				//response.sendRedirect("/PodMock2/register.jsp");
 				//return;
 				
 		    }
+		    
+		    else if(rs2.next()) {
+		    	request.setAttribute("Registration", "Id card number already in use");				
+		    }
+		    
+		    else if(rs4.next()) {
+		    	request.setAttribute("Registration", "Account already exist");				
+		    }
+		    
 		    else {
 		    PreparedStatement ps = con.prepareStatement("insert into user(name,email, password, mobile,type_of_card,id_card_no) values(?,?,md5(?),?,?,?);");
 		    ps.setString(1,fullname);
@@ -94,9 +112,12 @@ public class registration_page extends HttpServlet {
 				PreparedStatement ps3 = con.prepareStatement("insert into login(email,count) values(?,0);");
 			    ps3.setString(1,email);
 			    ps3.executeUpdate();
-				//String to=request.getParameter("emailid");
-				//RMail mail=new RMail();
-				//mail.SendMail(to);
+				String to=request.getParameter("emailid");
+				RMail mail=new RMail();
+				mail.SendMail(to);
+			    session.setAttribute("complaint-name", fullname);
+			    session.setAttribute("complaint-email", email);
+			    session.setAttribute("complaint-mobile", mobile);
 				response.setHeader("Refresh", "5; URL=/CrimeManagement/complaint.jsp");
 				
 				}else{
@@ -107,7 +128,7 @@ public class registration_page extends HttpServlet {
 		}
 		    }
 		}catch(Exception e){
-			
+			request.setAttribute("Registration", "System Error. We are working on it.");
 		}
 		//session.setAttribute("Registration", empty);
 		//response.sendRedirect("/register.jsp");

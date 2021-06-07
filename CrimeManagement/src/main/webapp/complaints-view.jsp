@@ -289,13 +289,12 @@ try{
 HttpSession session1 = request.getSession();
 int pincode = (int) session1.getAttribute("pincode");
 connection = DriverManager.getConnection(connectionUrl+dbName, userId, password);
-statement=connection.prepareStatement("SELECT * FROM complaints where pincode = ?");
+statement=connection.prepareStatement("select * from complaintstatus join complaints on complaints.status_of_complaint=complaintstatus.value where pincode=?");
 statement.setInt(1, pincode);
-
-
 resultSet = statement.executeQuery();
+
 while(resultSet.next()){
-	
+
 %>
 <tr bgcolor="#DEB887">
 
@@ -303,7 +302,7 @@ while(resultSet.next()){
 <td><%=resultSet.getString("complaintID") %></td>
 <td><%=resultSet.getString("email") %></td>
 <td><%=resultSet.getString("type_of_complaint") %></td>
-<td><a href="#" class="myclass" id=<%=resultSet.getString("complaintID") %>><%=resultSet.getString("status_of_complaint") %></a></td>
+<td><a href="#" class="myclass" id=<%=resultSet.getString("complaintID") %>><%=resultSet.getString("status") %></a></td>
 
 </tr>
 

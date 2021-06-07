@@ -90,8 +90,9 @@ public class verify_page extends HttpServlet {
 							
 							
 							//session.setAttribute("login", "Successfully logged in");
-							session.setAttribute("name", name);
-							session.setAttribute("email", email);
+							session.setAttribute("complaint-name", name);
+							session.setAttribute("complaint-email", email);
+							session.setAttribute("complaint-mobile", number);
 							response.sendRedirect("/CrimeManagement/complaint.jsp");
 							return;
 						//	RequestDispatcher rd=request.getRequestDispatcher("/complaint.jsp");
@@ -113,6 +114,7 @@ public class verify_page extends HttpServlet {
 			}
 
 					}catch (Exception e) {
+						request.setAttribute("login", "System Error. We are working on it..");
 						// TODO: handle exception
 						
 					}
